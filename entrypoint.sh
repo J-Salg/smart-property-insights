@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+echo "[startup] Downloading 3D models from S3 (if needed)..."
+python scripts/ensure_models.py
+
 echo "[startup] Applying database migrations..."
 flask db upgrade
 

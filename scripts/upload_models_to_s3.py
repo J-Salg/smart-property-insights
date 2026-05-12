@@ -16,15 +16,22 @@ from dotenv import load_dotenv
 load_dotenv()
 
 ARTIFACTS_DIR = os.getenv("ARTIFACTS_DIR", "artifacts/")
+STATIC_MODELS_DIR = os.path.join(os.path.dirname(__file__), "..", "app", "static", "models")
 S3_BUCKET = os.getenv("S3_BUCKET", "smart-property-models")
 AWS_REGION = os.getenv("AWS_REGION", "us-east-1")
 S3_PREFIX = "models/"
+S3_STATIC_PREFIX = "static/models/"
 
 ARTIFACTS = [
     "price_model.keras",
     "price_scaler.joblib",
     "energy_model.keras",
     "energy_scaler.joblib",
+]
+
+STATIC_MODELS = [
+    "price_building.glb",
+    "energy_building.glb",
 ]
 
 
@@ -96,8 +103,26 @@ def upload() -> None:
         print(f"             Done.")
         uploaded += 1
 
-    print(f"\n{uploaded}/{len(ARTIFACTS)} artifacts uploaded.")
-    if uploaded == len(ARTIFACTS):
+    print(f"\n{uploaded}/{len(ARTIFACTS)} ML artifacts uploaded.")
+
+    print(f"\nUploading 3D models  →  s3://{S3_BUCKET}/{S3_STATIC_PREFIX}\n")
+    glb_uploaded = 0
+    for filename in STATIC_MODELS:
+        local_path = os.path.normpath(os.path.join(STATIC_MODELS_DIR, filename))
+        s3_key = f"{S3_STATIC_PREFIX}{filename}"
+
+        if not os.path.exists(local_path):
+            print(f"  SKIP  {filename}  (not found in app/static/models/)")
+            continue
+
+        size_kb = os.path.getsize(local_path) / 1024
+        print(f"  Uploading  {filename}  ({size_kb:.1f} KB)  →  s3://{S3_BUCKET}/{s3_key}")
+        s3.upload_file(local_path, S3_BUCKET, s3_key)
+        print(f"             Done.")
+        glb_uploaded += 1
+
+    print(f"\n{glb_uploaded}/{len(STATIC_MODELS)} 3D models uploaded.")
+    if uploaded == len(ARTIFACTS) and glb_uploaded == len(STATIC_MODELS):
         print("\nNext: set MODEL_SOURCE=s3 on EC2.")
 
 if __name__ == "__main__":

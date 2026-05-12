@@ -10,6 +10,7 @@ services:
       DATABASE_URL: "sqlite:////app/data/smart_property.db"
       ARTIFACTS_DIR: "/app/artifacts"
     volumes:
-      - ./artifacts:/app/artifacts   # Models
-      - ./data:/app/data             # Database
+      - ./artifacts:/app/artifacts                        
+      - ./data:/app/data                                  
+      - ./app/static/models:/app/app/static/models        
     restart: unless-stopped
