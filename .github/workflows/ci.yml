@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run database migrations
+        run: flask db upgrade
+        env:
+          FLASK_APP: run.py
+          FLASK_ENV: development
+          SECRET_KEY: ci-only-secret
+          DATABASE_URL: sqlite:///ci_test.db
+          ARTIFACTS_DIR: artifacts
+
+      - name: Run tests
+        run: pytest --tb=short -q
+        env:
+          FLASK_ENV: development
+          SECRET_KEY: ci-only-secret
+          DATABASE_URL: sqlite:///ci_test.db
+          ARTIFACTS_DIR: artifacts
+
+  security:
+    name: Bandit Security Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Bandit
+        run: pip install bandit==1.7.9
+
+      - name: Run Bandit
+        run: bandit -r app/ scripts/ -c pyproject.toml --format txt
