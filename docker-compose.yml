@@ -1,0 +1,15 @@
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    environment:
+      # Persistent paths
+      DATABASE_URL: "sqlite:////app/data/smart_property.db"
+      ARTIFACTS_DIR: "/app/artifacts"
+    volumes:
+      - ./artifacts:/app/artifacts   # Models
+      - ./data:/app/data             # Database
+    restart: unless-stopped

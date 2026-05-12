@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+.venv/
+env/
+
+# Environment
+.env
+
+# Artifacts (S3 storage)
+artifacts/*.keras
+artifacts/*.h5
+artifacts/*.joblib
+artifacts/*.pkl
+
+# Data (large files)
+training/data/raw/*
+training/data/processed/*
+!training/data/raw/.gitkeep
+!training/data/processed/.gitkeep
+
+# Database
+*.db
+*.sqlite3
+data/
+!data/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Claude
+.claude/
+
+# OS 
+.DS_Store
+Thumbs.db
+
+# Docker
+.dockerignore
+
+# Coverage / Tests
+.coverage
+htmlcov/
+.pytest_cache/
