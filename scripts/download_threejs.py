@@ -21,7 +21,7 @@ FILES = {
 
 def fetch(url, dest):
     req = urllib.request.Request(url, headers=HEADERS)
-    with urllib.request.urlopen(req) as r, open(dest, "wb") as f:
+    with urllib.request.urlopen(req) as r, open(dest, "wb") as f:  
         f.write(r.read())
 
 for filename, url in FILES.items():
@@ -39,7 +39,7 @@ for url in GLTF_CANDIDATES:
         downloaded = True
         print(f"{os.path.getsize(dest) // 1024} KB  (from {url.split('/r')[1].split('/')[0]})")
         break
-    except Exception:
+    except Exception:  
         continue
 if not downloaded:
     print("FAILED — no candidate URL succeeded.")
