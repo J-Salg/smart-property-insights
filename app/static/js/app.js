@@ -220,6 +220,7 @@ function renderPriceResult(data) {
     },
   });
 
+  if (window.SpiThree) requestAnimationFrame(function () { SpiThree.initPriceScene("priceScene"); });
   result.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 
@@ -302,8 +303,12 @@ function renderEnergyResult(data) {
     },
   });
 
+  if (window.SpiThree) requestAnimationFrame(function () { SpiThree.initEnergyScene("energyScene", data.total_load_kwh_m2); });
   result.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 
 /* Init */
 checkHealth();
+window.addEventListener("load", function () {
+  if (window.SpiThree) SpiThree.initHeroScene("heroScene");
+});

@@ -37,6 +37,12 @@ data/
 # Claude
 .claude/
 
+# 3D model files
+app/static/models/*.glb
+app/static/models/*.gltf
+app/static/models/*.bin
+!app/static/models/.gitkeep
+
 # OS 
 .DS_Store
 Thumbs.db
