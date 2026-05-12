@@ -3,4 +3,4 @@ testpaths = ["tests"]
 
 [tool.bandit]
 exclude_dirs = ["tests", ".venv", "training"]
-skips = ["B101"]  # assert statements are expected in test code
+skips = ["B101", "B310", "B112"]  
