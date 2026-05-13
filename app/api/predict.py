@@ -15,8 +15,8 @@ def predict_price():
 
     try:
         result = PricePredictor.predict(data)
-    except FileNotFoundError as e:
-        return jsonify({"error": str(e)}), 503
+    except FileNotFoundError:
+        return jsonify({"error": "Price model unavailable — please try again shortly"}), 503
     except ValueError as e:
         return jsonify({"error": str(e)}), 422
 
@@ -32,8 +32,8 @@ def predict_energy():
 
     try:
         result = EnergyPredictor.predict(data)
-    except FileNotFoundError as e:
-        return jsonify({"error": str(e)}), 503
+    except FileNotFoundError:
+        return jsonify({"error": "Energy model unavailable — please try again shortly"}), 503
     except ValueError as e:
         return jsonify({"error": str(e)}), 422
 
