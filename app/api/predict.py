@@ -42,6 +42,9 @@ def predict_energy():
 
 
 def _log(prediction_type: str, inputs: dict, outputs: dict) -> None:
-    entry = PredictionLog(prediction_type=prediction_type, inputs=inputs, outputs=outputs)
-    db.session.add(entry)
-    db.session.commit()
+    try:
+        entry = PredictionLog(prediction_type=prediction_type, inputs=inputs, outputs=outputs)
+        db.session.add(entry)
+        db.session.commit()
+    except Exception:
+        db.session.rollback()

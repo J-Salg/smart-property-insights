@@ -7,7 +7,7 @@ python scripts/ensure_models.py
 echo "[startup] Applying database migrations..."
 flask db upgrade
 
-echo "[startup] Starting Gunicorn (1 worker, 120s timeout)..."
+echo "[startup] Starting Gunicorn..."
 exec gunicorn \
     --bind 0.0.0.0:5000 \
     --workers 1 \

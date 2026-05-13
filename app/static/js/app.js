@@ -285,6 +285,7 @@ function renderEnergyResult(data) {
     },
     options: {
       responsive: true,
+      aspectRatio: 1.5,
       cutout: "65%",
       plugins: {
         legend: {
