@@ -10,6 +10,7 @@ env/
 
 # Environment
 .env
+.env.example
 
 # Artifacts (S3 storage)
 artifacts/*.keras

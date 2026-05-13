@@ -39,7 +39,8 @@ for url in GLTF_CANDIDATES:
         downloaded = True
         print(f"{os.path.getsize(dest) // 1024} KB  (from {url.split('/r')[1].split('/')[0]})")
         break
-    except Exception:  
+    except (urllib.error.URLError, urllib.error.HTTPError, OSError) as e:
+        print(f"Failed to download from {url}: {e}", file=__import__('sys').stderr)
         continue
 if not downloaded:
     print("FAILED — no candidate URL succeeded.")
